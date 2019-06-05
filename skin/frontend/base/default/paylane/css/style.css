@@ -1,0 +1,168 @@
+/* 
+    Created on : 2015-06-12, 22:23:32
+    Author     : Michał Zabielski <michal.zabielski@endora.pl> http://www.endora.pl
+*/
+.clearfix {
+    clear: both;
+}
+
+.paylane-payment-container {
+    display: none;
+}
+
+.paylane-payment-method-container > .form-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.paylane-payment-method-container li {
+    display: flex;
+    float: none;
+    align-items: center;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    flex: 1 0 45%;
+    text-align: center;
+}
+
+.paylane-payment-method-container li.with-image {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    flex: 1 0 50%;
+}
+
+.paylane-payment-method-container li.with-image label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.paylane-payment-method-container li.with-image label .img-wrapper {
+    width: 120px;
+}
+
+.paylane-payment-method-container li.with-image label img {
+    float: none;
+    max-width: 100px;
+    max-height: 50px;
+    margin: 0 auto;
+}
+
+.paylane-payment-method-container-title {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.paylane-payment-method-container ul li {
+    float: left;
+    width: 50%;
+}
+
+#paylane-payment-method-additional-container {
+    /*display: none;*/
+    margin-top: 10px;
+}
+
+#paylane-payment-method-additional-container .payment-types-list.bank-transfer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#paylane-payment-method-additional-container .payment-types-list.bank-transfer li {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    flex: 1 0 20%;
+    text-align: center;
+}
+
+#paylane-payment-method-additional-container .payment-types-list.bank-transfer input[type="radio"] {
+    position: fixed;
+    opacity: 0;
+}
+
+#paylane-payment-method-additional-container .payment-types-list.bank-transfer label {
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+    flex-wrap: wrap;
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 150px;
+    height: 100px;
+    opacity: 0.5;
+    transition: 0.2s opacity ease-in-out;
+    cursor: pointer;
+}
+
+#paylane-payment-method-additional-container .payment-types-list.bank-transfer input:checked + label,
+#paylane-payment-method-additional-container .payment-types-list.bank-transfer label:hover {
+    opacity: 1;
+}
+
+#paylane-payment-method-additional-container .payment-types-list.bank-transfer label img {
+    display: block;
+    margin: 0 auto;
+    max-width: 125px;
+    max-height: 50px;
+    float: none;
+}
+
+#paylane-payment-method-additional-container .payment-types-list.bank-transfer label span {
+    display: block;
+    width: 100%;
+    font-size: 11px;
+    padding-top: 5px;
+    margin: 0 auto;
+}
+
+.paylane-payment-info {
+    font-family: Georgia, Times, "Times New Roman", serif;
+    font-size: 13px;
+}
+
+#apple-pay-active,
+#apple-pay-disabled {
+    display: none;
+}
+
+.apple-pay-button {
+    -webkit-appearance: -apple-pay-button;
+    -apple-pay-button-type: buy;
+    visibility: hidden;
+    display: inline-block;
+    width: 200px;
+    min-height: 30px;
+    border: 1px solid black;
+    background-image: -webkit-named-image(apple-pay-logo-black);
+    background-size: 100% calc(60% + 2px);
+    background-repeat: no-repeat;
+    background-color: white;
+    background-position: 50% 50%;
+    border-radius: 5px;
+    padding: 0px;
+    margin: 5px auto;
+    transition: background-color .15s;
+}
+
+.apple-pay-button.visible {
+    visibility: visible;
+}
+.apple-pay-button:active {
+    background-color: rgb(152, 152, 152);
+}
+
+#apple-pay-availability-loader img {
+    position: relative;
+    display: inline-block;
+    left: -30px;
+    width: 75px;
+    vertical-align: middle;
+}
+
+#apple-pay-availability-loader span {
+    display: inline-block;
+    position: relative;
+    left: -45px;
+}

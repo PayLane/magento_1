@@ -1,0 +1,36 @@
+<p id="apple-pay-availability-loader"><img src="<?php echo $this->getLoaderImg(); ?>"><span><?php echo $this->__('Checking payment method availability'); ?></span></p>
+<p id="apple-pay-disabled"><?php echo $this->__('This payment method is not available for your device'); ?></p>
+<p id="apple-pay-active"><?php echo $this->__('You will be redirected to ApplePay payment sheet after clicking a button on a next step'); ?></p>
+<input type="hidden" id="payment_params_token" name="payment[additional_information][token]" value="">
+<script type="text/javascript">
+//<![CDATA[
+    <?php if($this->getApiKey()): ?>
+    PayLane.setPublicApiKey("<?php echo $this->getApiKey(); ?>");
+    <?php endif; ?>
+    jQuery("#payment-buttons-container button:first").attr("disabled", true);
+    PayLane.applePay.checkAvailability((available) => {
+        jQuery("#apple-pay-availability-loader").hide();
+        if (!available) {
+            jQuery("#apple-pay-active").hide();
+            jQuery("#apple-pay-button").hide();
+            jQuery("#apple-pay-button").removeClass('visible');
+            jQuery("#apple-pay-disabled").show();
+            return console.warn('Apple Pay not available');
+        } else {
+            jQuery("#apple-pay-active").show();
+            jQuery("#apple-pay-button").addClass('visible');
+            jQuery("#apple-pay-disabled").hide();
+            jQuery("#payment-buttons-container button:first").removeAttr("disabled");
+        }
+    });
+
+    jQuery("#payment-buttons-container button").on('click', function(ev) {
+        var paymentType = jQuery('input[type=radio][name="payment[additional_information][paylane_payment_type]"]:checked');
+        if (paymentType.length > 0 && paymentType[0].value === 'applePay') {
+            jQuery("#paylane-apple-pay-active").val(1);
+        } else {
+            jQuery("#paylane-apple-pay-active").val(0);
+        }
+    });
+//]]>
+</script>

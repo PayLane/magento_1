@@ -1,0 +1,74 @@
+<?php
+/**
+ * Override normal submit button with additional handler for Apple Pay
+ */
+?>
+<button type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout" onclick="review.save();"><span><span><?php echo $this->__('Place Order') ?></span></span></button>
+<?php if ($this->isActive()): ?>
+<div id="apple-pay-button" class="apple-pay-button" title="<?php echo $this->__('Pay with Apple Pay'); ?>"></div>
+<script type="text/javascript">
+//<![CDATA[
+    if (jQuery('#paylane-apple-pay-active').val() == 1) {
+        jQuery('#review-buttons-container button[type="submit"]').hide();
+        jQuery('#apple-pay-button').addClass("visible");
+    } else {
+        jQuery('#review-buttons-container button[type="submit"]').show();
+        jQuery('#apple-pay-button').removeClass("visible");
+    }
+
+    var payLaneApplePayOnAuthorized = function(paymentResult, completion) {
+        try {
+            console.info('Apple Pay result', paymentResult);
+            // perform PayLane sale/authorization on server side
+            var data = JSON.stringify(paymentResult);
+            var headers = {
+            'user-agent': 'Mozilla/4.0 MDN Example',
+            'content-type': 'application/json'
+            };
+            var fetchData = {
+                method: 'POST',
+                headers: headers,
+                body: data
+            };
+
+            if (paymentResult && paymentResult.card && paymentResult.card.token) {
+                jQuery("#payment_params_token").val(paymentResult.card.token);
+                completion(ApplePaySession.STATUS_SUCCESS);
+                setTimeout(function() {
+                    jQuery('#review-buttons-container button[type="submit"]').trigger('click');
+                }, 2500);
+            } else {
+                completion(ApplePaySession.STATUS_FAILURE);
+            }
+        } catch (e) {
+            alert(JSON.stringify(e.message));
+        }
+    }
+
+    var payLaneApplePayPaymentRequest = {
+        countryCode: "<?php echo $this->getCountryCode(); ?>",
+        currencyCode: "<?php echo $this->getCurrencyCode(); ?>",
+        total: {
+            label: "<?php echo $this->getPaymentDescription(); ?>",
+            amount: "<?php echo $this->getAmount(); ?>"
+        }
+    };
+
+    var payLaneApplePayOnError = function(result) {
+        console.error(result)
+    };
+
+    jQuery('#apple-pay-button').on('click', function() {
+        try {
+            var applePaySession = PayLane.applePay.createSession(
+                payLaneApplePayPaymentRequest,
+                payLaneApplePayOnAuthorized,
+                payLaneApplePayOnError
+            );
+        } catch (e) {
+            alert(JSON.stringify(e.message));
+        }
+    });
+//]]>
+</script>
+<?php endif;
